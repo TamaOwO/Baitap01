@@ -13,6 +13,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     TextView txt2;
@@ -32,9 +36,6 @@ public class MainActivity extends AppCompatActivity {
                 "22110410\n" +
                 "Lớp: 22110ST1");
 
-        TextView txt2 = findViewById(R.id.textView2);
-        EditText editText = findViewById(R.id.editTextText);
-
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -45,9 +46,11 @@ public class MainActivity extends AppCompatActivity {
 
 
         btn1 = findViewById(R.id.button);
+        TextView txt2 = findViewById(R.id.textView2);
+        EditText editText = findViewById(R.id.editTextText);
 
         btn1.setOnClickListener(v -> {
-            String input = txt2.getText().toString();
+            String input = editText.getText().toString().trim();
             String reversed = reverseWords(input);
             txt2.setText(reversed);
             Toast.makeText(MainActivity.this, reversed, Toast.LENGTH_SHORT).show();
@@ -56,16 +59,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
     private String reverseWords(String input) {
-        String[] words = input.split(" "); // Tách chuỗi theo khoảng trắng
-        StringBuilder reversed = new StringBuilder();
-
-        // Đảo ngược thứ tự từ
-        for (int i = words.length - 1; i >= 0; i--) {
-            reversed.append(words[i]).append(" ");
-        }
-
-        // Chuyển thành chữ in hoa và loại bỏ khoảng trắng thừa
-        return reversed.toString().trim().toUpperCase();
+        List<String> words = Arrays.asList(input.split(" "));
+        Collections.reverse(words);
+        return String.join(" ", words).toUpperCase();
     }
 
 }
